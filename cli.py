@@ -254,6 +254,14 @@ def chat_main(client):
         if RTC:
             token = channel_info['token']
             RTC.joinChannel(token, channel_name, "", int(user_id))
+
+            if sys.platform == "darwin":  # OSX
+                audioSavePath = os.getcwd() + "/recordedAudio/" + str(channel_name) + ".wav"
+            elif sys.platform == "win32":  # Windows
+                audioSavePath = os.getcwd() + "\\recordedAudio\\" + str(channel_name) + ".wav"
+    
+            RTC.startAudioRecording(filePath=audioSavePath, sampleRate=48, quality="AUDIO_RECORDING_QUALITY_HIGH")
+
         else:
             print("[!] Agora SDK is not installed.")
             print("    You may not speak or listen to the conversation.")
